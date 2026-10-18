@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DoDeRsNot</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&display=swap">
+<style>
+:root{--bg:#fff;--fg:#222;--lav:#b8b8ff;--blue:#4a63b0;--pur:#a100ff;--gray:#e3e3e3;--bar:#a3b5f8;--card:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14142a;--fg:#eee;--gray:#2a2a44;--card:#1d1d38}}
+:root[data-theme="dark"]{--bg:#14142a;--fg:#eee;--gray:#2a2a44;--card:#1d1d38}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:20px/1.5 'Forum',Georgia,serif}
+[hidden]{display:none!important}
+.lg{color:var(--lav);letter-spacing:1px}.lg b{color:#150a2b;font-weight:900;text-shadow:-2px 0 #0ff,2px 0 #f0f;display:inline-block;transform:skewX(-8deg)}
+#login{min-height:100vh;background:var(--blue);padding:28px 26px;display:flex;flex-direction:column;align-items:center}
+#login .lg{font-size:clamp(38px,12vw,58px);margin:10px 0 24px}
+#login form{width:100%;max-width:420px}
+#login label{display:block;font-size:28px;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff}
+.ni{width:100%;padding:16px;border-radius:20px;border:3px solid #fff;background:var(--lav);box-shadow:0 0 18px #4da3ff;font:inherit;color:#222;margin:8px 0 22px}
+.b{display:block;width:100%;border:0;border-radius:20px;padding:14px;margin:8px 0;font:inherit;background:var(--lav);color:#222;cursor:pointer;text-align:center}
+.b.w{background:#fff}.b:disabled{opacity:.55}
+#msg{color:#ffd6d6;min-height:1.5em}
+header{position:sticky;top:0;z-index:7;display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg)}
+header .lg{font-size:30px;flex:1}
+#dots{border:0;background:none;color:var(--fg);font:900 26px/1 sans-serif;letter-spacing:2px;cursor:pointer;padding:8px}
+#penb{border:0;border-radius:16px;background:var(--blue);color:#fff;font:inherit;font-size:16px;padding:8px 14px}
+#drawer{position:fixed;z-index:9;left:0;top:0;bottom:0;width:80%;max-width:310px;background:var(--gray);border-radius:0 44px 44px 0;padding:calc(24px + env(safe-area-inset-top,0px)) 16px 24px;transform:translateX(-105%);transition:transform .25s;overflow:auto}
+#drawer.open{transform:none}
+#drawer button{display:block;width:100%;text-align:left;border:0;background:none;color:var(--fg);font:inherit;font-size:24px;padding:16px 8px;cursor:pointer;border-radius:16px}
+#view{max-width:560px;margin:0 auto;padding:6px 18px 90px}
+h2{font-weight:400;font-size:30px;margin:8px 0 14px}h3{font-weight:400;color:var(--blue);margin:6px 0}
+.c{display:block;width:100%;background:var(--card);color:var(--fg);border:3px solid var(--pur);border-radius:26px;padding:28px 14px;margin:14px 0;font:inherit;font-size:24px;text-align:center;cursor:pointer;box-shadow:0 6px 14px #0002}
+.bk{border:0;background:none;color:var(--blue);font:inherit;font-size:18px;padding:4px 0;cursor:pointer}
+.q{font-size:23px}.ok{color:#1b8a3a}.no{color:#c62828}.sm{font-size:15px;opacity:.75}
+.row{display:flex;gap:8px}.row .ni{margin:0;flex:1}.row .b{width:auto;margin:0}
+.m{margin:8px 0}
+.ovs{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.ov{background:var(--lav);color:#222;border-radius:50%/42%;width:min(100%,240px);padding:64px 14px;text-align:center;box-shadow:8px 12px 16px #0004;flex:1 1 150px}
+.ov h3{color:#111;font-size:26px}
+.sr{background:var(--bar);color:#222;border-radius:24px;padding:16px;margin:12px 0;text-align:center}
+.sr h3{color:#111;font-size:28px;margin:0}.sr p{margin:2px 0 8px;color:#555}.sr a{color:var(--blue)}
+textarea{width:100%;border:0;border-radius:22px;background:#fafaff;color:#222;font:inherit;padding:14px}
+.fr{border-radius:28px;overflow:hidden;box-shadow:0 0 22px var(--pur);margin:8px 0}.fr img,.fr svg{display:block;width:100%;height:auto}
+#at{font-size:24px;text-align:center;padding:10px;border-radius:18px;outline:none}
+#pad{position:fixed;left:0;top:0;z-index:5;pointer-events:none;touch-action:none}
+#tools{position:fixed;z-index:8;left:0;right:0;bottom:0;display:flex;gap:6px;padding:10px 10px calc(10px + env(safe-area-inset-bottom,0px));background:var(--lav);border-radius:22px 22px 0 0}
+#tools button{flex:1;border:0;border-radius:14px;padding:12px 2px;font:inherit;font-size:15px;color:#fff}
+</style>
+</head>
+<body>
+<div id="login">
+ <div class="lg">DoDe<b>R</b>sNot</div>
+ <form id="lf" autocomplete="off">
+  <label for="lu">Kullanıcı adı</label><input class="ni" id="lu" autocapitalize="none">
+  <label for="lp">Şifre</label><input class="ni" id="lp" type="password">
+  <div id="msg" role="status"></div>
+  <button class="b" type="submit">Giriş yap</button>
+  <button class="b w" type="button" id="rg">Kayıt ol</button>
+ </form>
+</div>
+<div id="main" hidden>
+ <header><button id="dots" aria-label="Menü">• • •</button><div class="lg">DoDe<b>R</b>sNot</div><button id="penb" hidden>Kalem</button></header>
+ <nav id="drawer">
+  <button onclick="go('acc')">~ Hesabım</button><button onclick="go('lgs')">~ Lgsye hazırlık testleri</button>
+  <button onclick="go('tf')">~ Doğru yanlış testleri</button><button onclick="go('cred')">~ Emeği geçenler</button>
+  <button onclick="go('src')">~ Kaynakça</button><button onclick="out()">~ Çıkış</button>
+ </nav>
+ <main id="view"></main>
+</div>
+<canvas id="pad"></canvas>
+<div id="tools" hidden>
+ <button data-c="#111111" style="background:#111">Siyah</button><button data-c="#1e56d8" style="background:#1e56d8">Mavi</button>
+ <button data-c="#d32f2f" style="background:#d32f2f">Kırmızı</button>
+ <button id="tc" style="background:#fff;color:#222">Temizle</button><button id="tx" style="background:var(--blue)">Bitti</button>
+</div>
+<script>
+const $=s=>document.querySelector(s),LS=localStorage,V=$("#view");
+const ld=(k,d)=>{try{const v=JSON.parse(LS.getItem(k));return v==null?d:v}catch(e){return d}};
+const sv=(k,v)=>{try{LS.setItem(k,JSON.stringify(v))}catch(e){}};
+const h=s=>{let x=5381;for(const c of s)x=(x*33)^c.charCodeAt(0);return(x>>>0).toString(36)};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const R=n=>Math.floor(Math.random()*n),shuf=a=>[...a].sort(()=>Math.random()-.5);
+let U=null,tmr;
+const D={
+"Matematik":[["Rasyonel sayılar, paydası sıfırdan farklı iki tam sayının oranı şeklinde yazılabilir.",1],["0 sayısı pozitif bir tam sayıdır.",0],["(-5) + (-3) işleminin sonucu -8’dir.",1],["Çemberin çevresi 2πr formülüyle bulunur.",1],["3/4 sayısı 0,75’e eşittir.",1],["Bir sayının %50’si, o sayının yarısıdır.",1],["Doğru orantıda bir çokluk artarken diğeri azalır.",0],["2x + 3 ifadesinde x’in katsayısı 3’tür.",0],["Bir dairenin alanı πr² formülüyle bulunur.",1],["(-2) × 6 işleminin sonucu 12’dir.",0]],
+"Türkçe":[["“-mak/-mek” ekiyle oluşan fiilimsilere isim-fiil denir.",1],["“Gelen misafirleri karşıladık.” cümlesindeki “gelen” sözcüğü sıfat-fiildir.",1],["Deyimler, gerçek anlamlarından uzaklaşarak kalıplaşmış söz öbekleridir.",1],["“Kara gün” sözünde “kara” sözcüğü mecaz anlamda kullanılmıştır.",1],["Ünlem işareti, duygu ve heyecan bildiren cümlelerin sonuna konur.",1],["Hikâye, anlatmaya bağlı bir edebî türdür.",1],["Şiirde dizelerin oluşturduğu her bir bölüme “mısra” denir.",0],["“Yarın okula gideceğim.” cümlesi geçmiş zamanlıdır.",0],["“Uzak” sözcüğünün zıt anlamlısı “yakın”dır.",1],["“De/da” bağlacı her zaman kendinden önceki sözcüğe bitişik yazılır.",0]],
+"Fen Bilimleri":[["Mitoz bölünme sonucunda ana hücreyle aynı kromozom sayısına sahip iki hücre oluşur.",1],["Mayoz bölünme vücut (beden) hücrelerinde gerçekleşir.",0],["Güneş bir yıldızdır.",1],["Işık boşlukta yayılamaz.",0],["Elektrik devresinde üreteç, enerji kaynağı görevi görür.",1],["Element ve bileşikler saf maddelerdir.",1],["Tuzlu su homojen bir karışımdır.",1],["Aynalar ışığı soğurarak görüntü oluşturur.",0],["Kuvvetin birimi Joule’dür.",0],["Işık yılı bir zaman birimidir.",0]],
+"Sosyal Bilgiler":[["Malazgirt Savaşı 1071 yılında yapılmıştır.",1],["Malazgirt Savaşı’nda Türk ordusuna Alp Arslan komuta etmiştir.",1],["Osmanlı Devleti’nin kurucusu Osman Bey’dir.",1],["İstanbul, 1453’te Fatih Sultan Mehmet tarafından fethedilmiştir.",1],["Anadolu Selçuklu Devleti’nin kurucusu Kutalmışoğlu Süleyman Şah’tır.",1],["Osmanlı Devleti’nin ilk başkenti Edirne’dir.",0],["Türkiye, Asya ve Avrupa kıtaları arasında köprü konumundadır.",1],["İletişimde dinleme becerisi önemli değildir.",0],["Ekvator, Dünya’yı Kuzey ve Güney Yarım Küre olarak ikiye ayırır.",1],["Türkiye’nin başkenti İstanbul’dur.",0]],
+"İngilizce":[["“Last week” ifadesi genellikle geçmiş zaman cümlelerinde kullanılır.",1],["“Cooking” kelimesi “yemek pişirme” anlamına gelir.",1],["“Taller” sıfatı “daha uzun” anlamındadır.",1],["“Can” kelimesi yeterlilik bildiren bir modal fiildir.",1],["“Go” fiilinin geçmiş hâli “goed”dir.",0]],
+"Din Kültürü":[["Hac, İslam’ın şartlarından biridir.",1],["Kur’an-ı Kerim’i Hz. Muhammed’e Cebrail (a.s.) getirmiştir.",1],["Ahiret inancı, iman esaslarından biridir.",1],["İslam’ın şartları altıdır.",0],["Hz. Muhammed’in doğduğu şehir Medine’dir.",0]]};
+const CR=[["Başkan ve yardımcı",["Feyzi Kerem Aslan","Mehmet Eymen Erdogan"]],["Üyeler",["Yusuf Arin Daghan","Ardıl Renas Koyuncu","Yunus Araf","Miran Şimşek","Nihat Akyüz"]]];
+const SRC=[["TonguçAkademi","Konu anlatımları (video)","https://www.tongucakademi.com"],["Hız yayınları","Konu anlatımları (not)","https://www.hizyayinlari.com"],["Mozaik yayınları","Testler ve D or Y soruları","https://www.mozaikyayinlari.com.tr"]];
+const bk=()=>`<button class="bk" onclick="go('home')">← Geri</button>`;
+const ART=`<svg viewBox="0 0 300 380" role="img" aria-label="KryZeX anma görseli"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#150a2b"/><stop offset="1" stop-color="#4a63b0"/></linearGradient></defs><rect width="300" height="380" fill="url(#g)"/><circle cx="150" cy="140" r="70" fill="#b8b8ff"/><circle cx="182" cy="122" r="62" fill="#1c1240"/>${[[40,50],[250,70],[70,200],[240,230],[120,40],[210,30],[30,300],[270,320]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.5" fill="#fff"/>`).join("")}<g font-family="Forum,Georgia,serif" font-size="50" font-weight="700" text-anchor="middle"><text x="145" y="292" fill="#0ff">KryZeX</text><text x="155" y="292" fill="#f0f">KryZeX</text><text x="150" y="292" fill="#fff">KryZeX</text></g><text x="150" y="338" text-anchor="middle" font-family="Forum,Georgia,serif" font-size="18" fill="#b8b8ff">Unutulmadın</text></svg>`;
+function rep(t){t=t.toLowerCase();if(/plan|program/.test(t))return"Günlük plan önerisi:\n• 45 dk Matematik\n• 30 dk Türkçe (paragraf)\n• 30 dk Fen\n• 20 dk tekrar + 20 dk soru çözümü\nHer 45 dakikada 10 dakika mola ver.";if(/motivasyon|sıkıl|yorul/.test(t))return"Küçük hedefler koy: bugün sadece 1 konu bitir. İstikrar, hızdan önemlidir!";if(t.includes("matematik"))return"Önce konu özeti, sonra her gün 20 soru. Yanlışlarını bir deftere yaz.";if(t.includes("türkçe"))return"Her gün 20 paragraf sorusu çöz ve günde 20 sayfa kitap oku.";if(/fen/.test(t))return"Kavramları şemalarla öğren; deney sorularında formülden çok mantığı çalış.";if(/sınav|deneme/.test(t))return"Haftada en az 1 deneme çöz, süreyi tut ve yanlış analizi yap.";return"Bana “plan”, “matematik”, “türkçe”, “fen”, “deneme” veya “motivasyon” yazabilirsin."}
+// ---- Kalem
+const pad=$("#pad"),cx=pad.getContext("2d");let col="#111",dr=0;
+const fit=()=>{if(innerWidth>pad.width||innerHeight>pad.height){pad.width=Math.max(innerWidth,pad.width);pad.height=Math.max(innerHeight,pad.height)}};fit();addEventListener("resize",fit);
+const clr=()=>cx.clearRect(0,0,pad.width,pad.height);
+function setPen(on){pad.style.pointerEvents=on?"auto":"none";$("#tools").hidden=!on;$("#penb").textContent=on?"Kalem: Açık":"Kalem";pad.dataset.on=on?1:""}
+pad.onpointerdown=e=>{dr=1;pad.setPointerCapture(e.pointerId);cx.strokeStyle=col;cx.lineWidth=3;cx.lineCap="round";cx.lineJoin="round";cx.beginPath();cx.moveTo(e.clientX,e.clientY);cx.lineTo(e.clientX+.1,e.clientY);cx.stroke()};
+pad.onpointermove=e=>{if(dr){cx.lineTo(e.clientX,e.clientY);cx.stroke()}};
+pad.onpointerup=pad.onpointercancel=()=>dr=0;
+$("#penb").onclick=()=>setPen(!pad.dataset.on);$("#tx").onclick=()=>setPen(0);$("#tc").onclick=clr;
+document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>col=b.dataset.c);
+// ---- Giriş
+const msg=t=>$("#msg").textContent=t;
+$("#lf").onsubmit=e=>{e.preventDefault();const u=$("#lu").value.trim(),us=ld("dd_u",{});if(us[u]&&us[u]===h($("#lp").value)){U=u;msg("");$("#login").hidden=true;$("#main").hidden=false;go("home")}else msg("Kullanıcı adı veya şifre yanlış.")};
+$("#rg").onclick=()=>{const u=$("#lu").value.trim(),p=$("#lp").value,us=ld("dd_u",{});if(u.length<3||p.length<4)return msg("Kullanıcı adı en az 3, şifre en az 4 karakter olmalı.");if(us[u])return msg("Bu kullanıcı adı alınmış.");us[u]=h(p);sv("dd_u",us);msg("Kayıt oluşturuldu, şimdi giriş yapabilirsin.")};
+function out(){U=null;$("#main").hidden=true;$("#login").hidden=false;$("#lp").value="";go("home")}
+$("#dots").onclick=()=>$("#drawer").classList.toggle("open");
+V.onclick=()=>$("#drawer").classList.remove("open");
+function go(p){clearTimeout(tmr);clr();setPen(0);$("#penb").hidden=true;$("#drawer").classList.remove("open");scrollTo(0,0);(P[p]||P.home)()}
+// ---- Test motoru
+function quiz(t,qs,tf,rec,back){
+ qs=shuf(qs);let i=0,sc=0;$("#penb").hidden=false;
+ const show=()=>{clr();
+  if(i>=qs.length){const T=qs.length;if(rec&&U){const s=ld("dd_s_"+U,{b:0,d:0});s.d++;s.b=Math.max(s.b,Math.round(100*sc/T));sv("dd_s_"+U,s)}
+   V.innerHTML=bk()+`<h2>Bitti! Skorun: ${sc}/${T}</h2><button class="b" id="ag">Tekrar dene</button>`;$("#ag").onclick=()=>quiz(t,qs,tf,rec,back);return}
+  const q=qs[i],o=tf?["Doğru","Yanlış"]:q[1],c=tf?(q[1]?0:1):q[2];
+  V.innerHTML=bk()+`<h3>${esc(t)} · ${i+1}/${qs.length}</h3><p class="q">${esc(q[0])}</p>`+o.map((x,k)=>`<button class="b" data-k="${k}">${esc(x)}</button>`).join("")+`<p id="fb"></p>`;
+  const bs=V.querySelectorAll("[data-k]");
+  bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.disabled=true);const ok=+b.dataset.k===c;if(ok)sc++;$("#fb").textContent=ok?"Doğru!":"Yanlış. Doğru cevap: "+o[c];$("#fb").className=ok?"ok":"no";i++;tmr=setTimeout(show,1100)})};
+ show()}
+const P={
+home(){V.innerHTML=`<h2>Hoş geldin, ${esc(U||"")}!</h2><button class="c" onclick="go('vid')">Konu Anlatımlı<br>Videolar</button><button class="c" onclick="go('games')">Dersle alakalı<br>oyunlar</button><button class="c" onclick="go('notes')">Yazılı Notları</button><button class="c" onclick="go('coach')">Yapay zeka<br>Eğitim koçu</button><button class="c" onclick="go('anma')">KryZeX’i anma</button>`},
+acc(){const s=ld("dd_s_"+U,{b:0,d:0});V.innerHTML=bk()+`<h2>Hesabım</h2><p>Kullanıcı adı: ${esc(U)}</p><p>Çözülen test sayısı: ${s.d}</p><p>En yüksek başarı: %${s.b}</p>`},
+lgs(){const q=ld("dd_lgs",[]);V.innerHTML=bk()+`<h2>LGS’ye hazırlık testleri</h2>`+(q.length?`<button class="b" id="ls">Teste başla (${q.length} soru)</button>`:`<p>Henüz test eklenmedi. İndirdiğin soruları JSON dosyası olarak yükle.</p>`)+`<label class="b w" style="border:2px solid var(--lav)">Soru dosyası yükle (.json)<input id="lj" type="file" accept=".json,application/json" hidden></label><p id="lm" class="no"></p><p class="sm">Biçim: [["Soru",["A","B","C","D"],1]] — son sayı doğru şıkkın sırasıdır (0=A, 1=B…).</p>`;
+ if(q.length)$("#ls").onclick=()=>quiz("LGS’ye hazırlık",q,0,1,"lgs");
+ $("#lj").onchange=e=>{const f=e.target.files[0];if(f)f.text().then(t=>{try{const a=JSON.parse(t);if(!Array.isArray(a)||!a.every(x=>Array.isArray(x)&&Array.isArray(x[1])))throw 0;sv("dd_lgs",a);P.lgs()}catch(x){$("#lm").textContent="Dosya okunamadı. Biçimi kontrol et."}})}},
+tf(){const all=Object.values(D).flat();V.innerHTML=bk()+`<h2>Doğru yanlış testleri</h2>`+Object.entries(D).map(([k,v],i)=>`<button class="b" data-i="${i}">${k} (${v.length} soru)</button>`).join("")+`<button class="b" style="background:var(--bar)" id="km">Karışık (${all.length} soru)</button>`;
+ V.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{const [k,v]=Object.entries(D)[b.dataset.i];quiz(k+" · D/Y",v,1,1,"tf")});$("#km").onclick=()=>quiz("Karışık · D/Y",all,1,1,"tf")},
+cred(){V.innerHTML=bk()+`<h2>Emeği geçenler</h2><div class="ovs">`+CR.map(([t,n])=>`<div class="ov"><h3>${t}</h3>${n.map(x=>`<p class="m">${x}</p>`).join("")}</div>`).join("")+`</div>`},
+src(){V.innerHTML=bk()+`<h2>Kaynakça</h2>`+SRC.map(([n,d,u])=>`<div class="sr"><h3>${n}</h3><p>${d}</p><a href="${u}" target="_blank" rel="noopener">Siteyi aç</a></div>`).join("")},
+vid(){V.innerHTML=bk()+`<h2>Konu Anlatımlı Videolar</h2>`+Object.keys(D).map(k=>`<a class="b" target="_blank" rel="noopener" style="text-decoration:none" href="https://www.youtube.com/results?search_query=${encodeURIComponent("7. sınıf "+k+" konu anlatımı")}">${k}</a>`).join("")},
+games(){V.innerHTML=bk()+`<h2>Dersle alakalı oyunlar</h2><button class="b" id="g1">Hızlı Matematik</button><button class="b" id="g2">Eş Anlamlı Kelimeler</button>`;
+ $("#g1").onclick=()=>{const q=[];for(let n=0;n<10;n++){const a=2+R(14),b=2+R(14),o="+-×"[R(3)],r=o=="+"?a+b:o=="-"?a-b:a*b,s=new Set([r]);while(s.size<4)s.add(r+[-10,-3,-2,-1,1,2,3,10][R(8)]);const op=shuf([...s]);q.push([`${a} ${o} ${b} = ?`,op.map(String),op.indexOf(r)])}quiz("Hızlı Matematik",q,0,0,"games")};
+ $("#g2").onclick=()=>{const w=Object.entries({güzel:"hoş",hızlı:"çabuk",büyük:"iri",mutlu:"sevinçli",cesur:"yürekli",akıllı:"zeki",yol:"cadde",sakin:"dingin"});quiz("Eş Anlamlı Kelimeler",w.map(([k,v])=>{const o=shuf(shuf(w.filter(x=>x[0]!=k).map(x=>x[1])).slice(0,3).concat(v));return[`“${k}” kelimesinin eş anlamlısı hangisidir?`,o,o.indexOf(v)]}),0,0,"games")}},
+notes(){const k="dd_n_"+U;V.innerHTML=bk()+`<h2>Yazılı Notları</h2><textarea id="nt" rows="14" aria-label="Notların">${esc(ld(k,""))}</textarea><p id="ns" class="ok"></p>`;$("#nt").oninput=e=>{sv(k,e.target.value);$("#ns").textContent="Kaydedildi."}},
+coach(){V.innerHTML=bk()+`<h2>Yapay zeka Eğitim koçu</h2><div id="ch"></div><div class="row"><input class="ni" id="ci" placeholder="Mesajını yaz..."><button class="b" id="cs">Gönder</button></div>`;
+ const add=(w,t)=>{const d=document.createElement("p");d.className="m";d.innerHTML=`<b>${w}:</b> `+esc(t).replace(/\n/g,"<br>");$("#ch").appendChild(d)};
+ add("Koç","Merhaba! Ben eğitim koçun. Nasıl yardımcı olabilirim?");
+ const s=()=>{const t=$("#ci").value.trim();if(!t)return;$("#ci").value="";add("Sen",t);add("Koç",rep(t))};$("#cs").onclick=s;$("#ci").onkeydown=e=>{if(e.key=="Enter")s()}},
+anma(){const im=ld("dd_img",""),tx=ld("dd_tx","KryZeX’i her zaman hatırlayacağız.");
+ V.innerHTML=bk()+`<h2>KryZeX’i anma</h2><div class="fr">${im?`<img src="${im}" alt="KryZeX">`:ART}</div><p id="at" contenteditable="true" aria-label="Anma yazısı">${esc(tx)}</p><label class="b">Fotoğraf seç<input id="af" type="file" accept="image/*" hidden></label><p class="sm">Yazıyı değiştirmek için üstüne dokun. Seçtiğin fotoğraf yalnızca bu cihazda saklanır.</p>`;
+ $("#at").oninput=e=>sv("dd_tx",e.target.innerText);
+ $("#af").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader;r.onload=()=>{const i=new Image;i.onload=()=>{const s=Math.min(1,700/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);sv("dd_img",c.toDataURL("image/jpeg",.8));P.anma()};i.src=r.result};r.readAsDataURL(f)}}};
+</script>
+</body>
+</html>
